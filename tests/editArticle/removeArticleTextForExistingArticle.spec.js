@@ -5,30 +5,37 @@ import { generateNewUserData } from '../../src/common/testData/generateNewUserDa
 import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
 import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
+import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
+import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
 
-let homePage;
-let createArticlePage;
-let viewArticlePage;
+
+
 let article;
+let viewArticlePage;
+let homePage;
+let editArticlePage;
+
+
 
 test.beforeEach(async ({ page }) => {
   homePage = new HomePage(page);
-  createArticlePage = new CreateArticlePage(page);
+  editArticlePage = new EditArticlePage(page);
   viewArticlePage = new ViewArticlePage(page);
   article = generateNewArticleData();
-  const user = generateNewUserData();
+  console.log('Generated article:', JSON.stringify(article, null, 2));
 
+
+  const user = generateNewUserData();
   await signUpUser(page, user);
+  await createNewArticle(page, user, article);
 });
 
-test('Creat an article with required fields', async () => {
-  await homePage.clickNewArticleLink();
+test('Remove the article `text` for the existing article', async () => {
+  await viewArticlePage.clickEditArticleButton();
+  await editArticlePage.fillTextField('');
 
-  await createArticlePage.fillTitleField(article.title);
-  await createArticlePage.fillDescriptionField(article.description);
-  await createArticlePage.fillTextField(article.text);
-  await createArticlePage.clickPublishArticleButton();
+  await editArticlePage.clickUpdateArticleButton();
+  await viewArticlePage.assertTextFieldIsNotVisible();
 
-  await viewArticlePage.assertArticleTitleIsVisible(article.title);
-  await viewArticlePage.assertArticleTextIsVisible(article.text);
+  
 });
