@@ -1,10 +1,10 @@
-import { test, expect } from '@playwright/test';
-
+import { expect, test } from '@playwright/test';
 export class ViewArticlePage {
   constructor(page) {
     this.page = page;
     this.articleTitleHeader = page.getByRole('heading');
-    this.editArticleButton = page.getByRole('link', { name: ' Edit Article' }).first();
+    this.editArticleButton = page.getByRole('link', { name: 'Edit Article' }).first();
+
   }
 
   async assertArticleTitleIsVisible(title) {
@@ -31,6 +31,16 @@ export class ViewArticlePage {
       await expect(this.page.getByTestId('article-tags')).toBeHidden();
     });
   }
+  
+  async assertTagIsVisible(tagText) {
+    await test.step(`Assert the tag '${tagText}' is visible`, async () => {
+      await this.page.waitForTimeout(1000);
+    
+      await expect(this.page.locator('.tag-list', { hasText: tagText })).toBeVisible();
+        await this.page.locator('.tag-list', { hasText: tagText }).waitFor();
+    });
+  }
+
 
   async waitForUpdateTitle(title){
     await test.step(`Wait for the article title to be updated'`, async () => {

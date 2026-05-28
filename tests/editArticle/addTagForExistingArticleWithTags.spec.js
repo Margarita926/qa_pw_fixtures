@@ -1,5 +1,4 @@
-import { test } from '@playwright/test';
-import { HomePage } from '../../src/ui/pages/HomePage';
+import {  expect,test } from '@playwright/test';
 import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
 import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
 import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
@@ -9,17 +8,15 @@ import { createNewArticle } from '../../src/ui/actions/article/createNewArticle'
 
 let article;
 let viewArticlePage;
-let homePage;
 let editArticlePage;
 
 
 
 test.beforeEach(async ({ page }) => {
-  homePage = new HomePage(page);
   editArticlePage = new EditArticlePage(page);
   viewArticlePage = new ViewArticlePage(page);
-  article = generateNewArticleData();
-  console.log('Generated article:', JSON.stringify(article, null, 2));
+  article = generateNewArticleData(1);
+ 
 
 
   const user = generateNewUserData();
@@ -30,8 +27,15 @@ test.beforeEach(async ({ page }) => {
 test('Add a tag for the existing article with tags', async () => {
   await viewArticlePage.clickEditArticleButton();
   await editArticlePage.fillTagField('new-tag');
+    await editArticlePage.page.waitForTimeout(500);
+await expect(editArticlePage.updateArticleButton).toBeEnabled();
+
   await editArticlePage.clickUpdateArticleButton();
-  await editArticlePage.clickUpdateArticleButton();
-  await viewArticlePage.assertArticleTitleIsVisible(article.title);
+    await viewArticlePage.page.waitForTimeout(1000);
+      await viewArticlePage.page.reload();
+      
+  await viewArticlePage.clickEditArticleButton();
+     await viewArticlePage.page.reload();
+    await viewArticlePage.page.waitForTimeout(1000);
+  await viewArticlePage.assertTagIsVisible('new-tag');
 });
-//   await viewArticlePage.assertArticleTagsAreVisible(['new-tag']);});

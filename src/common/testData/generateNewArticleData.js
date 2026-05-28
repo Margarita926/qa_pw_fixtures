@@ -14,3 +14,4 @@ export function generateNewArticleData(logger, tagNumber = 0) {
 
   return article;
 }
+      

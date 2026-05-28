@@ -17,16 +17,12 @@ export async function createNewArticle(page, user, article) {
     await createArticlePage.fillDescriptionField(article.description);
     await createArticlePage.fillTextField(article.text);
 
-      // const specificTagName = 'MyUniqueTag' + Math.floor(Math.random() * 1000); 
-      //   await editArticlePage.clickOnDeleteTag(specificTagName); 
-
-
-
-
-
-if (article.tags && article.tags.length > 0) {
+    if (article.tags && article.tags.length > 0) {
       await createArticlePage.fillTagField(article.tags.join(','));
     }
+
+    await createArticlePage.page.waitForTimeout(1000); 
+    await createArticlePage.clickPublishArticleButton();
     await createArticlePage.clickPublishArticleButton();
     await viewArticlePage.assertArticleTitleIsVisible(article.title); 
 

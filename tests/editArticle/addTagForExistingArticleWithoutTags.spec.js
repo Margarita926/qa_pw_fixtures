@@ -1,33 +1,28 @@
 import { test } from '@playwright/test';
-import { HomePage } from '../../src/ui/pages/HomePage';
-import { CreateArticlePage } from '../../src/ui/pages/article/CreateArticlePage';
 import { generateNewUserData } from '../../src/common/testData/generateNewUserData';
 import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
 import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
-import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
 import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
-import { createNewArticleWithoutTags } from '../../src/ui/actions/article/createNewArticleWithoutTags';
+import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
 
 
 let article;
 let viewArticlePage;
-let homePage;
 let editArticlePage;
 
 
 
 test.beforeEach(async ({ page }) => {
-  homePage = new HomePage(page);
   editArticlePage = new EditArticlePage(page);
   viewArticlePage = new ViewArticlePage(page);
-  article = generateNewArticleData();
-  console.log('Generated article:', JSON.stringify(article, null, 2));
+  article = generateNewArticleData(0);
+  
 
 
   const user = generateNewUserData();
   await signUpUser(page, user);
-  await createNewArticleWithoutTags(page, user, article);
+  await createNewArticle(page, user, article);
 });
 
 test('Add a tag for the existing article without tags', async () => {
@@ -35,6 +30,8 @@ test('Add a tag for the existing article without tags', async () => {
   await editArticlePage.fillTagField('new-tag');
   await editArticlePage.clickUpdateArticleButton();
   await editArticlePage.clickUpdateArticleButton();
-  await viewArticlePage.assertArticleTitleIsVisible(article.title);
+  await viewArticlePage.page.waitForTimeout(1000);
+  await viewArticlePage.page.reload();
+  await viewArticlePage.assertTagIsVisible('new-tag');
 });
-//   await viewArticlePage.assertArticleTagsAreVisible(['new-tag']);});
+

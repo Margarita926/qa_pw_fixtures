@@ -1,6 +1,4 @@
 import { test } from '@playwright/test';
-import { HomePage } from '../../src/ui/pages/HomePage';
-import { CreateArticlePage } from '../../src/ui/pages/article/CreateArticlePage';
 import { generateNewUserData } from '../../src/common/testData/generateNewUserData';
 import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
@@ -10,18 +8,17 @@ import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
 
 
 let article;
-let homePage;
+
 let viewArticlePage;
 let editArticlePage;
 
 
 
 test.beforeEach(async ({ page }) => {
-  homePage = new HomePage(page);
+
   editArticlePage = new EditArticlePage(page);
   viewArticlePage = new ViewArticlePage(page);
   article = generateNewArticleData();
-  console.log('Generated article:', JSON.stringify(article, null, 2));
 
 
   const user = generateNewUserData();
