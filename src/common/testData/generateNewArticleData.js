@@ -9,6 +9,8 @@ export function generateNewArticleData(logger, tagNumber = 0) {
     text: faker.lorem.sentences(2),
     tags,
   };
+  
+  logger.debug(`New article generated: ${JSON.stringify(article)}`);
 
   return article;
 }
