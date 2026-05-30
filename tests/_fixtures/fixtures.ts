@@ -2,6 +2,8 @@ import { mergeTests } from '@playwright/test';
 import { test as authTest } from './fixturesAuth';
 import { test as genericTest } from './fixturesGeneric';
 import { test as articlesTestFixtures } from './fixturesArticles';
+import { test as viewArticleTest } from './fixturesViewArticle';
+import { test as editArticleTest } from './fixturesEditArticle';    
+import { test as createArticleTest } from './fixturesCreateArticle';    
 
-
-export const test = mergeTests(authTest, genericTest, articlesTestFixtures);
+export const test = mergeTests(authTest, genericTest, articlesTestFixtures, viewArticleTest, editArticleTest, createArticleTest);

@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test } from './fixtures/fixtures';
 import { generateNewUserData } from '../../src/common/testData/generateNewUserData';
 import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
@@ -16,17 +16,18 @@ let editArticlePage;
 
 
 test.beforeEach(async ({ page }) => {
-  editArticlePage = new EditArticlePage(page);
-  viewArticlePage = new ViewArticlePage(page);
+  // editArticlePage = new EditArticlePage(page);
+  // viewArticlePage = new ViewArticlePage(page);
   article = generateNewArticleData();
-
 
   const user = generateNewUserData();
   await signUpUser(page, user);
   await createNewArticle(page, user, article);
 });
 
-test('Remove the article `title` for the existing article', async () => {
+
+
+test('Remove the article `title` for the existing article', async ({ editArticlePage, viewArticlePage }) => {
   await viewArticlePage.clickEditArticleButton();
   await editArticlePage.fillTitleField('');
 
@@ -36,3 +37,8 @@ test('Remove the article `title` for the existing article', async () => {
     );
   
 });
+
+// test('test name', async ({ createArticlePage, articleWithoutTags }) => {
+//   await createArticlePage.create(articleWithoutTags);
+//   // ...
+// });

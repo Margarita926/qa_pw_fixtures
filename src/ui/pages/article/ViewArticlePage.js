@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures/fixtures';
 export class ViewArticlePage {
   constructor(page) {
     this.page = page;

@@ -1,4 +1,4 @@
-import {  expect,test } from '@playwright/test';
+import { expect, test } from './fixtures/fixtures';
 import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
 import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
 import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';

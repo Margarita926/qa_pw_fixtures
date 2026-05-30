@@ -1,16 +1,16 @@
 import { test as base } from '@playwright/test';
-import { CreateArticlePage } from '../../src/ui/pages/articles/CreateArticlePage';
-import { ViewArticlePage } from '../../src/ui/pages/articles/ViewArticlePage';
-import { EditArticlePage } from '../../src/ui/pages/articles/EditArticlePage';
+import { CreateArticlePage } from '../../src/ui/pages/article/CreateArticlePage';
+import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
+import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
 
 
 
 
 export const test = base.extend<{
-  CreateArticlePage;
-  ViewArticlePage;
-  EditArticlePage;
-  articleWithoutTags;
+   createArticlePage: CreateArticlePage,
+  viewArticlePage: ViewArticlePage,
+  editArticlePage: EditArticlePage,
+  articleWithoutTags
   articleWithOneTag;
   articleWithTwoTags;
 }>({

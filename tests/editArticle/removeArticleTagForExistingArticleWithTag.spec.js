@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test } from './fixtures/fixtures';
 import { generateNewUserData } from '../../src/common/testData/generateNewUserData';
 import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
