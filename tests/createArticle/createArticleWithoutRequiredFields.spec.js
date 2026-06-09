@@ -1,15 +1,20 @@
 import { test } from '../_fixtures/fixtures';
-import { generateNewUserData } from '../../src/common/testData/generateNewUserData';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
 import { TITLE_CANNOT_BE_EMPTY } from '../../src/ui/constants/articleErrorMessages';
 
 
-test.beforeEach(async ({ homePage, createArticlePage }) => {
-  const user = generateNewUserData();
-  await signUpUser(homePage.page, user);
+test.beforeEach(async ({ homePage, newUserData }) => {
+ await signUpUser(homePage.page, newUserData);
+
 });
 
-test('Creat an article without required fields', async () => {
+test('Creat an article without required fields', async ({
+  homePage,
+  createArticlePage,
+
+}) => {
+  
+  
   await homePage.clickNewArticleLink();
 
   await createArticlePage.clickPublishArticleButton();

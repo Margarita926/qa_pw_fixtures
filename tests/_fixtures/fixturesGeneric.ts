@@ -2,16 +2,13 @@ import { test as base } from '@playwright/test';
 import { Logger } from '../../src/common/logger/Logger';
 import { generateNewUserData } from '../../src/common/testData/generateNewUserData';
 
-export const test = base.extend<
-  {
-    user;
-    infoTestLog;
-  },
-  {
-    logger;
-  }
->({
-  user: async ({ logger }, use) => {
+export const test = base.extend<{
+  newUserData: ReturnType<typeof generateNewUserData>;
+  infoTestLog: string;
+}, {
+  logger: Logger;
+}>({
+  newUserData: async ({ logger }, use) => {
     const user = generateNewUserData(logger);
 
     await use(user);

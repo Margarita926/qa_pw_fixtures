@@ -2,62 +2,38 @@ import { test as base } from '@playwright/test';
 import { CreateArticlePage } from '../../src/ui/pages/article/CreateArticlePage';
 import { ViewArticlePage } from '../../src/ui/pages/article/ViewArticlePage';
 import { EditArticlePage } from '../../src/ui/pages/article/EditArticlePage';
-
-
-
+import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 
 export const test = base.extend<{
-   createArticlePage: CreateArticlePage,
-  viewArticlePage: ViewArticlePage,
-  editArticlePage: EditArticlePage,
-  articleWithoutTags
-  articleWithOneTag;
-  articleWithTwoTags;
+  createArticlePage: CreateArticlePage;
+  viewArticlePage: ViewArticlePage;
+  editArticlePage: EditArticlePage;
+  articleWithoutTags: ReturnType<typeof generateNewArticleData>;
+  articleWithOneTag: ReturnType<typeof generateNewArticleData>;
+  articleWithTwoTags: ReturnType<typeof generateNewArticleData>;
 }>({
-  CreateArticlePage: async ({ page }, use) => {
+  createArticlePage: async ({ page }, use) => {
     const createArticlePage = new CreateArticlePage(page);
-
     await use(createArticlePage);
   },
-  ViewArticlePage: async ({ page }, use) => {
+  viewArticlePage: async ({ page }, use) => {
     const viewArticlePage = new ViewArticlePage(page);
-
     await use(viewArticlePage);
   },
-  EditArticlePage: async ({ page }, use) => {
+  editArticlePage: async ({ page }, use) => {
     const editArticlePage = new EditArticlePage(page);
-
     await use(editArticlePage);
   },
-  
-
-
-  articleWithoutTags: async ({}, use) => {
-  const article = {
-    title: `Test Article ${Math.random().toString(36).substring(2, 15)}`,
-    description: 'This is a test article without tags.',
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    tags: [],
-  };
-  await use(article);
-},
-articleWithOneTag: async ({}, use) => {
-  const article = {
-    title: `Test Article ${Math.random().toString(36).substring(2, 15)}`,
-    description: 'This is a test article with one tag.',
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    tags: ['test'],
-  };
-  await use(article);
-},
-articleWithTwoTags: async ({}, use) => {
-  const article = {
-    title: `Test Article ${Math.random().toString(36).substring(2, 15)}`,
-    description: 'This is a test article with two tags.',
-    body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    tags: ['test', 'article'],
-  };
-  await use(article);
-},
+  articleWithoutTags: async ({ logger }, use) => {
+    const article = generateNewArticleData(logger, 0);
+    await use(article);
+  },
+  articleWithOneTag: async ({ logger }, use) => {
+    const article = generateNewArticleData(logger, 1);
+    await use(article);
+  },
+  articleWithTwoTags: async ({ logger }, use) => {
+    const article = generateNewArticleData(logger, 2);
+    await use(article);
+  },
 });
-
