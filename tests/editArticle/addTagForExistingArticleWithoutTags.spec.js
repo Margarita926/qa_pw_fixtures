@@ -1,15 +1,12 @@
 import { test } from '../_fixtures/fixtures';
-import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
 import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
 
 
-let article;
 
-test.beforeEach(async ({ page, newUserData }) => {
-  article = generateNewArticleData(0);
+test.beforeEach(async ({ page, newUserData, articleWithoutTags }) => {
   await signUpUser(page, newUserData);
-  await createNewArticle(page, newUserData, article);
+  await createNewArticle(page, newUserData, articleWithoutTags);
 });
 
 test('Add a tag for the existing article without tags', async ({

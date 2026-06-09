@@ -1,16 +1,14 @@
 import { test } from '../_fixtures/fixtures';
-import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
+
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
 import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
 
-let article;
 
-test.beforeEach(async ({ page, newUserData }) => {
+
+test.beforeEach(async ({ page, newUserData,articleWithoutTags }) => {
  
-  article = generateNewArticleData();
-
   await signUpUser(page, newUserData);
-  await createNewArticle(page, newUserData, article);
+  await createNewArticle(page, newUserData, articleWithoutTags);
 });
 
 test('Remove the article description for the existing article', async ({

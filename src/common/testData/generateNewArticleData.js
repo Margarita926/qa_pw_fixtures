@@ -21,8 +21,8 @@ export function generateNewArticleData(loggerOrTagNumber = undefined, tagNumber 
     tags,
   };
 
-  if (logger?.debug) {
-    logger.debug(`New article generated: ${JSON.stringify(article)}`);
+  if (logger?.warn) {
+    logger.warn(`New article generated: ${JSON.stringify(article)}`);
   }
 
   return article;

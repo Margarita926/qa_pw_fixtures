@@ -1,26 +1,24 @@
 import { test } from '../_fixtures/fixtures';
-import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
 import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
 
 
-let article;
 
 
-test.beforeEach(async ({ page, newUserData }) => {
+test.beforeEach(async ({ page, newUserData, articleWithoutTags}) => {
 
-  article = generateNewArticleData();
   await signUpUser(page, newUserData);
-  await createNewArticle(page, newUserData, article);
+  await createNewArticle(page, newUserData, articleWithoutTags);
 });
 
 test('Edit the article description for the existing article', async ({
    editArticlePage,
   viewArticlePage,
+  articleWithoutTags,
 }) => {
  await viewArticlePage.clickEditArticleButton();
- await editArticlePage.fillDescriptionField(article.description + 'Updated');
+ await editArticlePage.fillDescriptionField(articleWithoutTags.description + 'Updated');
  await editArticlePage.clickUpdateArticleButton();
  await viewArticlePage.clickEditArticleButton();
- await editArticlePage.assertArticleDescriptionIsVisible(article.description + 'Updated');
+ await editArticlePage.assertArticleDescriptionIsVisible(articleWithoutTags.description + 'Updated');
 });

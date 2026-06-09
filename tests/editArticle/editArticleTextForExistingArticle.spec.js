@@ -1,29 +1,26 @@
 import { test } from '../_fixtures/fixtures';
-import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
+
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
 import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
 
 
 
-let article;
 
+test.beforeEach(async ({ page, newUserData, articleWithoutTags }) => {
 
-test.beforeEach(async ({ page, newUserData }) => {
-  
-
-  article = generateNewArticleData();
 
   await signUpUser(page, newUserData);
-  await createNewArticle(page, newUserData, article);
+  await createNewArticle(page, newUserData, articleWithoutTags);
 });
 
 test('Edit the article text for the existing article', async ({
    editArticlePage,
   viewArticlePage,
+  articleWithoutTags
 }) => {
   await viewArticlePage.clickEditArticleButton();
-  await editArticlePage.fillTextField(article.text + ' Updated');
+  await editArticlePage.fillTextField(articleWithoutTags.text + ' Updated');
   await editArticlePage.clickUpdateArticleButton();
-  await viewArticlePage.assertArticleTextIsVisible(article.text + ' Updated');
+  await viewArticlePage.assertArticleTextIsVisible(articleWithoutTags.text + ' Updated');
   
 });

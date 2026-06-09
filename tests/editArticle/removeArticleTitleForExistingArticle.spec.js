@@ -1,15 +1,13 @@
 import { test } from '../_fixtures/fixtures';
 import { TITLE_CANNOT_BE_EMPTY } from '../../src/ui/constants/articleErrorMessages';
-import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
 import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
 
-let article;
 
-test.beforeEach(async ({ page, newUserData }) => {
-  article = generateNewArticleData();
+test.beforeEach(async ({ page, newUserData, articleWithOneTag }) => {
+
   await signUpUser(page, newUserData);
-  await createNewArticle(page, newUserData, article);
+  await createNewArticle(page, newUserData, articleWithOneTag);
 });
 
 test('Remove the article `title` for the existing article', async ({ viewArticlePage, editArticlePage }) => {

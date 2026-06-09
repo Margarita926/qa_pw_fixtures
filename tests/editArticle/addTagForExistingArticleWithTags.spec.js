@@ -1,20 +1,18 @@
 import { test } from '../_fixtures/fixtures';
 import { expect} from '@playwright/test';
-import { generateNewArticleData } from '../../src/common/testData/generateNewArticleData';
 import { signUpUser } from '../../src/ui/actions/auth/signUpUser';
 import { createNewArticle } from '../../src/ui/actions/article/createNewArticle';
 
-let article;
 
-test.beforeEach(async ({ page,newUserData }) => {
-  article = generateNewArticleData(1);
+test.beforeEach(async ({ page,newUserData, articleWithTwoTags }) => {
   await signUpUser(page, newUserData);
-  await createNewArticle(page, newUserData, article);
+  await createNewArticle(page, newUserData, articleWithTwoTags);
 });
 
 test('Add a tag for the existing article with tags', async ({
    editArticlePage,
   viewArticlePage,
+  
 }) => {
   await viewArticlePage.clickEditArticleButton();
   await editArticlePage.fillTagField('new-tag');
